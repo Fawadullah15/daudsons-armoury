@@ -2162,7 +2162,7 @@ model AuditLog {
   <!-- 7. FLOATING WHATSAPP (+92 347 9212161), BACK-TO-TOP & COOKIE BANNER   -->
   <!-- ===================================================================== -->
   <div class="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-2.5">
-    <button id="backToTopBtn" type="button" aria-label="Scroll Back to Top" class="px-3.5 py-2.5 bg-theme-surface border border-theme-brass font-mono-tech text-xs text-theme-brass hover:bg-[#C8A24A] hover:text-[#0A0B0D] shadow-lg transition-all">
+    <button id="backToTopBtn" type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" aria-label="Scroll Back to Top" class="px-3.5 py-2.5 bg-theme-surface border border-theme-brass font-mono-tech text-xs text-theme-brass hover:bg-[#C8A24A] hover:text-[#0A0B0D] shadow-lg transition-all cursor-pointer">
       ↑ TOP
     </button>
     <a href="https://wa.me/0923479212161" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp +92 347 9212161" class="flex items-center gap-2 px-4 py-3 bg-[#25D366] text-[#0A0B0D] font-mono-tech text-xs font-bold rounded shadow-xl hover:scale-105 transition-transform">
@@ -2172,23 +2172,35 @@ model AuditLog {
   </div>
 
   <!-- Cookie & Compliance Banner -->
-  <div id="cookieBanner" class="fixed bottom-4 left-4 right-4 md:right-auto md:max-w-md z-[95] bg-[#14161A] border border-[#C8A24A] p-4 shadow-2xl space-y-2.5">
+  <div id="cookieBanner" class="fixed bottom-4 left-4 right-4 md:right-auto md:max-w-md z-[95] bg-[#14161A] border border-[#C8A24A] p-4 shadow-2xl space-y-2.5 transition-all duration-300" style="display: none;">
     <div class="flex items-center justify-between font-mono-tech text-[11px] text-[#C8A24A]">
-      <span>COMPLIANCE &amp; COOKIE PREFERENCES</span>
-      <span>ISO / GDPR READY</span>
+      <span class="font-bold">COMPLIANCE &amp; COOKIE PREFERENCES</span>
+      <div class="flex items-center gap-2">
+        <span class="text-[10px] text-theme-steel">ISO / GDPR READY</span>
+        <button type="button" onclick="window.acceptCookies()" class="text-theme-steel hover:text-white px-1.5 py-0.5 text-xs font-bold font-mono-tech" title="Dismiss">✕</button>
+      </div>
     </div>
     <p class="text-xs text-[#8A9099] leading-relaxed">
       We use essential local storage for your E-Shop merchandise cart and theme preferences. Firearm purchases strictly require a valid license in person.
     </p>
     <div class="flex gap-2 pt-1">
-      <button id="acceptCookiesBtn" type="button" class="btn-signal px-4 py-1.5 font-mono-tech text-[11px] uppercase font-bold">
+      <button id="acceptCookiesBtn" type="button" onclick="window.acceptCookies()" class="btn-signal px-4 py-1.5 font-mono-tech text-[11px] uppercase font-bold cursor-pointer hover:brightness-110 active:scale-95 transition-all">
         Accept &amp; Continue
       </button>
-      <button type="button" data-route="legal" class="nav-route-btn px-3 py-1.5 border border-theme-muted font-mono-tech text-[11px] uppercase text-theme-steel">
+      <button type="button" data-route="legal" onclick="window.switchRoute('legal')" class="nav-route-btn px-3 py-1.5 border border-theme-muted font-mono-tech text-[11px] uppercase text-theme-steel hover:text-[#C8A24A] hover:border-[#C8A24A] transition-colors cursor-pointer">
         Licensing Policy
       </button>
     </div>
   </div>
+  <script>
+    try {
+      if (localStorage.getItem('DSA_COOKIE_CONSENT') !== 'true') {
+        document.getElementById('cookieBanner').style.display = 'block';
+      }
+    } catch (e) {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }
+  </script>
 
   <!-- ===================================================================== -->
   <!-- 8. APPLICATION LOGIC, SEED DATA, 3D VIEWER & D3 PAKISTAN MAP          -->

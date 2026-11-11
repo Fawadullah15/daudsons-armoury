@@ -64,7 +64,34 @@ class DsaApp {
     }, 4500);
   }
 
+  acceptCookies() {
+    try {
+      localStorage.setItem("DSA_COOKIE_CONSENT", "true");
+    } catch (e) {
+      console.warn("localStorage notice:", e);
+    }
+    const banner = document.getElementById("cookieBanner");
+    if (banner) {
+      banner.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+      banner.style.opacity = "0";
+      banner.style.transform = "translateY(16px)";
+      setTimeout(() => {
+        banner.style.display = "none";
+        if (banner.parentElement) banner.remove();
+      }, 260);
+    }
+    this.showToast("Compliance preferences accepted", "success");
+  }
+
   async init() {
+    // Check cookie consent early
+    try {
+      if (localStorage.getItem("DSA_COOKIE_CONSENT") === "true") {
+        const cb = document.getElementById("cookieBanner");
+        if (cb) cb.style.display = "none";
+      }
+    } catch (e) {}
+
     // 1. Preloader Year Counter 1953 -> 2026
     const preloader = document.getElementById("preloaderOverlay");
     const yearEl = document.getElementById("preloaderYear");
@@ -558,6 +585,80 @@ class DsaApp {
           }
         };
         reader.readAsDataURL(file);
+      });
+    }
+
+    // Cookie Banner Accept Button
+    const acceptCookiesBtn = document.getElementById("acceptCookiesBtn");
+    if (acceptCookiesBtn) {
+      acceptCookiesBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.acceptCookies();
+      });
+    }
+
+    // Scroll Back to Top Button
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+
+    // Next.js Source & Architecture Inspector Modal
+    const openCodeTop = document.getElementById("openCodeBlueprintBtnTop");
+    const openCodeMain = document.getElementById("openCodeBlueprintBtn");
+    const closeCodeModal = document.getElementById("closeCodeModalBtn");
+    const codeModal = document.getElementById("codeInspectorModal");
+
+    const openCodeModalFn = (e) => {
+      if (e) e.preventDefault();
+      if (codeModal) {
+        codeModal.classList.remove("hidden");
+        codeModal.classList.add("flex");
+      }
+    };
+    const closeCodeModalFn = (e) => {
+      if (e) e.preventDefault();
+      if (codeModal) {
+        codeModal.classList.add("hidden");
+        codeModal.classList.remove("flex");
+      }
+    };
+
+    if (openCodeTop) openCodeTop.addEventListener("click", openCodeModalFn);
+    if (openCodeMain) openCodeMain.addEventListener("click", openCodeModalFn);
+    if (closeCodeModal) closeCodeModal.addEventListener("click", closeCodeModalFn);
+
+    // Global ESC key listener to dismiss active modals & drawers
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeCodeModalFn();
+        const prodModal = document.getElementById("admEditProductModal");
+        if (prodModal) prodModal.classList.add("hidden");
+        const cartDrawer = document.getElementById("miniCartDrawerBackdrop");
+        if (cartDrawer) {
+          cartDrawer.classList.add("hidden");
+          cartDrawer.classList.remove("flex");
+        }
+      }
+    });
+
+    // Admin API Explorer runner button
+    const admTestApiBtn = document.getElementById("admTestApiGetBtn");
+    if (admTestApiBtn) {
+      admTestApiBtn.addEventListener("click", async () => {
+        const consoleEl = document.getElementById("admApiLogConsole");
+        if (!consoleEl) return;
+        try {
+          const res = await fetch("/api/stats");
+          const data = await res.json();
+          consoleEl.innerHTML = `<div class="p-2 bg-green-950/60 border border-green-500/40 text-green-300 font-mono text-[11px] mb-2">✓ HTTP 200 GET /api/stats (OK)</div><pre class="text-[10px] text-theme-steel overflow-x-auto">${JSON.stringify(data, null, 2)}</pre>` + consoleEl.innerHTML;
+        } catch (err) {
+          consoleEl.innerHTML = `<div class="p-2 bg-red-950/60 border border-red-500/40 text-red-300 font-mono text-[11px] mb-2">✗ Error GET /api/stats: ${err.message}</div>` + consoleEl.innerHTML;
+        }
       });
     }
   }
@@ -2046,6 +2147,15 @@ window.adminDeleteNews = (id) => {
 };
 window.adminDeleteMedia = (id) => {
   if (window.dsaApp) window.dsaApp.adminDeleteMedia(id);
+};
+window.acceptCookies = () => {
+  if (window.dsaApp) {
+    window.dsaApp.acceptCookies();
+  } else {
+    try { localStorage.setItem("DSA_COOKIE_CONSENT", "true"); } catch (e) {}
+    const b = document.getElementById("cookieBanner");
+    if (b) b.remove();
+  }
 };
 
 window.addEventListener("DOMContentLoaded", () => {

@@ -664,12 +664,14 @@ function seedDatabase(force = false) {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `);
   for (const d of seed.dealers || []) {
+    const lat = d.lat !== undefined ? d.lat : (d.coords ? d.coords[0] : 34.0144);
+    const lng = d.lng !== undefined ? d.lng : (d.coords ? d.coords[1] : 71.5785);
     insertDealer.run(
       d.id,
       d.city,
       d.province,
-      d.coords[0],
-      d.coords[1],
+      lat,
+      lng,
       d.isHQ ? 1 : 0,
       d.name,
       d.address,
