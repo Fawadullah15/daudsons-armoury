@@ -1,0 +1,26 @@
+{
+  "name": "daudsons-armoury-fullstack",
+  "version": "1.0.0",
+  "description": "Enterprise Full-Stack Web Application for Daudsons Armoury (Pvt.) Ltd. Peshawar, Pakistan",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test/api-test.js"
+  },
+  "keywords": [
+    "daudsons",
+    "armoury",
+    "defense",
+    "aerospace",
+    "fullstack",
+    "express",
+    "sqlite"
+  ],
+  "author": "Daudsons Armoury Engineering",
+  "license": "Proprietary",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  }
+}

@@ -1,0 +1,394 @@
+/* ==========================================================================
+   DAUDSONS ARMOURY (PVT.) LTD. — PRODUCTION MASTER STYLESHEET
+   Peshawar, Pakistan — Established 1953
+   ISO 9001:2015, ISO 14001:2015, AS9100 Rev D
+   ========================================================================== */
+
+:root, [data-theme="dark"] {
+  --bg: #0A0B0D;
+  --surface: #14161A;
+  --surface-2: #1C1F24;
+  --steel: #8A9099;
+  --text: #F2F0EB;
+  --accent: #C8A24A;
+  --signal: #E4572E;
+  --border-hairline: rgba(200, 162, 74, 0.22);
+  --border-muted: rgba(242, 240, 235, 0.09);
+  --glass-bg: rgba(10, 11, 13, 0.88);
+}
+
+[data-theme="light"] {
+  --bg: #F4F3EF;
+  --surface: #FFFFFF;
+  --surface-2: #E8E5DD;
+  --steel: #4E545F;
+  --text: #111317;
+  --accent: #9A7622;
+  --signal: #D84318;
+  --border-hairline: rgba(154, 118, 34, 0.3);
+  --border-muted: rgba(17, 19, 23, 0.12);
+  --glass-bg: rgba(244, 243, 239, 0.92);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & SCREEN READERS
+   ========================================================================== */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
+.sr-only:focus,
+.focus\:not-sr-only:focus {
+  position: fixed !important;
+  top: 12px !important;
+  left: 12px !important;
+  z-index: 99999 !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 8px 16px !important;
+  background-color: var(--signal) !important;
+  color: #FFFFFF !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  clip: auto !important;
+  white-space: normal !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+
+/* ==========================================================================
+   PRELOADER OVERLAY
+   ========================================================================== */
+#preloaderOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 999999 !important;
+  background-color: #0A0B0D !important;
+  color: #F2F0EB !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: opacity 0.4s ease, visibility 0.4s ease !important;
+}
+
+#preloaderOverlay.hide-preloader,
+#preloaderOverlay.opacity-0 {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+#preloaderOverlay svg {
+  max-width: 80px !important;
+  max-height: 80px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY & FONTS
+   ========================================================================== */
+.font-display {
+  font-family: 'Space Grotesk', -apple-system, sans-serif !important;
+}
+
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+.fluid-hero {
+  font-size: clamp(2.15rem, 4.6vw + 0.8rem, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+
+.fluid-h2 {
+  font-size: clamp(1.65rem, 3vw + 0.4rem, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.fluid-h3 {
+  font-size: clamp(1.2rem, 1.5vw + 0.4rem, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+/* ==========================================================================
+   HEADER & NAVIGATION
+   ========================================================================== */
+header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 60 !important;
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid var(--border-hairline) !important;
+}
+
+header img,
+.nav-logo {
+  max-height: 38px !important;
+  width: auto !important;
+  object-fit: contain !important;
+}
+
+button {
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  border: none;
+  font-family: inherit;
+}
+
+.nav-route-btn {
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.nav-route-btn:hover {
+  color: var(--accent) !important;
+}
+
+/* ==========================================================================
+   BRAND THEME UTILITY CLASSES
+   ========================================================================== */
+.bg-theme-base { background-color: var(--bg) !important; }
+.bg-theme-surface { background-color: var(--surface) !important; }
+.bg-theme-surface-2 { background-color: var(--surface-2) !important; }
+.text-theme-primary { color: var(--text) !important; }
+.text-theme-steel { color: var(--steel) !important; }
+.text-theme-brass { color: var(--accent) !important; }
+.border-theme-brass { border-color: var(--border-hairline) !important; }
+.border-theme-muted { border-color: var(--border-muted) !important; }
+
+/* Technical Grid & Blueprint Surface */
+.tech-grid-bg {
+  background-size: 48px 48px;
+  background-image:
+    linear-gradient(to right, var(--border-muted) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-muted) 1px, transparent 1px);
+}
+
+/* Subtle Film Grain Overlay */
+.film-grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  opacity: 0.03;
+  background-image: radial-gradient(rgba(200, 162, 74, 0.65) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Marquee Animation */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 32s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Pulsing Radar Pin */
+@keyframes radarPulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  70% { transform: scale(2.6); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+.pin-pulse {
+  animation: radarPulse 2.2s infinite ease-out;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* Buttons */
+.btn-signal {
+  background-color: var(--signal) !important;
+  color: #FFFFFF !important;
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-signal:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px -5px rgba(228, 87, 46, 0.45);
+}
+
+.btn-brass {
+  border: 1px solid var(--accent) !important;
+  color: var(--text) !important;
+  background-color: transparent !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-brass:hover {
+  background-color: var(--accent) !important;
+  color: #0A0B0D !important;
+}
+
+/* Division Accordion Desktop Behavior */
+.division-panel {
+  transition: flex 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
+}
+@media (min-width: 1024px) {
+  .division-panel { flex: 1; }
+  .division-panel:hover, .division-panel.active-panel { flex: 2.15; }
+}
+
+/* Focus Ring Accessibility */
+:focus-visible {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 3px !important;
+}
+
+/* Toast Notifications */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.dsa-toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 420px;
+  padding: 12px 18px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+@keyframes toastSlideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   CORE STRUCTURAL UTILITIES (Bulletproof Layout Enforcement)
+   ========================================================================== */
+.hidden { display: none !important; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.max-w-full { max-width: 100%; }
+.max-h-full { max-height: 100%; }
+.object-cover { object-fit: cover; }
+.object-contain { object-fit: contain; }
+.overflow-hidden { overflow: hidden; }
+.z-0 { z-index: 0; }
+.z-10 { z-index: 10; }
+.z-20 { z-index: 20; }
+.z-50 { z-index: 50; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-1 { gap: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
+.gap-3 { gap: 0.75rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.gap-8 { gap: 2rem; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.uppercase { text-transform: uppercase; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+.leading-none { line-height: 1; }
+.leading-tight { line-height: 1.25; }
+.leading-relaxed { line-height: 1.625; }

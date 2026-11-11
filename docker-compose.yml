@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  daudsons-platform:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: daudsons-armoury-core
+    restart: unless-stopped
+    ports:
+      - "3053:3053"
+    environment:
+      - NODE_ENV=production
+      - PORT=3053
+      - ADMIN_EMAIL=admin@daudsons.com
+      - ADMIN_PASSWORD=Daudsons@1953#Peshawar
+      - DATABASE_PATH=/app/data/daudsons.db
+    volumes:
+      - daudsons-db-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3053/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+volumes:
+  daudsons-db-data:
+    name: daudsons_armoury_data

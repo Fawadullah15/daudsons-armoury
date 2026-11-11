@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# SQLite WAL and lock files (keep main daudsons.db or re-seed)
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Environment and secrets
+.env
+.env.local
+.env.production
+
+# OS and Editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Uploads directory contents
+public/uploads/*
+!public/uploads/.gitkeep

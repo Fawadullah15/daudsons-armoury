@@ -1,0 +1,464 @@
+// =========================================================================
+// DAUDSONS ARMOURY (PVT.) LTD. — PRODUCTION RELATIONAL SCHEMA
+// Multi-Tiered Database Schema for Small Arms, Defense & Aerospace Portal
+// Compatible with PostgreSQL (Production) and SQLite (Local Development)
+// =========================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Switch to "sqlite" for local zero-dependency development
+  url      = env("DATABASE_URL")
+}
+
+// -------------------------------------------------------------
+// 1. AUTHENTICATION, ACCESS CONTROL & AUDITING
+// -------------------------------------------------------------
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  SALES_SUPPORT
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING_RESET
+}
+
+model User {
+  id                   String        @id @default(cuid())
+  email                String        @unique
+  passwordHash         String
+  name                 String
+  role                 Role          @default(EDITOR)
+  status               UserStatus    @default(ACTIVE)
+  totpSecret           String?
+  totpEnabled          Boolean       @default(false)
+  recoveryCodes        String?       // JSON array of SHA-256 hashed single-use codes
+  failedLoginAttempts  Int           @default(0)
+  lockoutUntil         DateTime?
+  mustChangePassword   Boolean       @default(false)
+  lastLoginAt          DateTime?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  sessions             Session[]
+  auditLogs            AuditLog[]
+}
+
+model Session {
+  id          String    @id @default(cuid())
+  tokenHash   String    @unique
+  userId      String
+  userEmail   String
+  role        Role
+  ipAddress   String?
+  userAgent   String?
+  expiresAt   DateTime
+  revoked     Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+}
+
+model AuditLog {
+  id          Int       @id @default(autoincrement())
+  userId      String?
+  userEmail   String?
+  role        String?
+  action      String    // e.g., "LOGIN_SUCCESS", "UPDATE_PRODUCT", "ORDER_DISPATCH"
+  entityType  String?   // "product", "section", "order", "user", etc.
+  entityId    String?
+  details     Json?     // Before / after diff snapshot
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime  @default(now())
+
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// -------------------------------------------------------------
+// 2. SITE SETTINGS, NAVIGATION & CONTENT MANAGEMENT (CMS)
+// -------------------------------------------------------------
+
+model SiteSettings {
+  key         String    @id
+  value       String
+  updatedAt   DateTime  @updatedAt
+}
+
+model NavigationItem {
+  id          String           @id @default(cuid())
+  label       String
+  href        String
+  parentId    String?
+  parent      NavigationItem?  @relation("NavHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children    NavigationItem[] @relation("NavHierarchy")
+  displayOrder Int             @default(0)
+  isVisible   Boolean          @default(true)
+}
+
+model Page {
+  id          String       @id @default(cuid())
+  slug        String       @unique // e.g., "home", "about-us", "licensing-compliance"
+  title       String
+  metaTitle   String?
+  metaDesc    String?
+  ogImage     String?
+  canonical   String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  sections    Section[]
+}
+
+model Section {
+  id           String      @id @default(cuid())
+  pageId       String?
+  pageKey      String      @default("home") // "home", "products", "about"
+  sectionKey   String      @unique          // "hero", "divisions", "certifications", "mantis"
+  title        String
+  subtitle     String?
+  badge        String?
+  content      String?     // Rich text or structured JSON
+  ctaText      String?
+  ctaLink      String?
+  imageUrl     String?
+  displayOrder Int         @default(0)
+  isVisible    Boolean     @default(true)
+  updatedAt    DateTime    @updatedAt
+
+  page         Page?       @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageKey])
+}
+
+// -------------------------------------------------------------
+// 3. MASTER CATALOG & INDUSTRIAL DIVISIONS
+// -------------------------------------------------------------
+
+enum DivisionType {
+  FIREARMS
+  DEFENSE
+  AEROSPACE
+  ENGINEERING
+}
+
+model Division {
+  id          String        @id @default(cuid())
+  key         DivisionType  @unique
+  name        String        // "Firearms Division", "Defense Division", etc.
+  tagline     String
+  description String
+  leadImage   String
+  displayOrder Int          @default(0)
+
+  products    Product[]
+  categories  ProductCategory[]
+}
+
+model ProductCategory {
+  id          String     @id @default(cuid())
+  name        String     // e.g., "9mm Semi-Automatic Pistols", "Aerial Bomb Bodies"
+  slug        String     @unique
+  divisionKey DivisionType
+  division    Division   @relation(fields: [divisionKey], references: [key])
+  displayOrder Int       @default(0)
+
+  products    Product[]
+
+  @@index([divisionKey])
+}
+
+model Product {
+  id                String           @id @default(cuid())
+  slug              String           @unique
+  name              String
+  divisionKey       DivisionType
+  division          Division         @relation(fields: [divisionKey], references: [key])
+  categoryId        String?
+  category          ProductCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  requiresLicense   Boolean          @default(true) // Regulated weapon check
+  image             String
+  wpAsset           String?          // Canonical WordPress asset path from daudsons.com
+  shortDesc         String
+  features          Json             // Array of key bullet features
+  specs             Json             // Key-value specification matrix
+  finishes          Json?            // Available finishes: FDE, Cerakote, Blued Steel
+  downloads         Json?            // Associated technical PDF datasheet URLs
+  needsVerification Boolean          @default(false) // Content truth audit flag
+  isPublished       Boolean          @default(true)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  gallery           GalleryImage[]
+
+  @@index([divisionKey])
+  @@index([slug])
+  @@index([needsVerification])
+}
+
+model GalleryImage {
+  id          String     @id @default(cuid())
+  productId   String
+  product     Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  imageUrl    String
+  caption     String?
+  displayOrder Int       @default(0)
+
+  @@index([productId])
+}
+
+// -------------------------------------------------------------
+// 4. MERCHANDISE E-SHOP & ORDERS (PKR ₨ - APPAREL & ACCESSORIES ONLY)
+// -------------------------------------------------------------
+
+model ShopItem {
+  id          String      @id @default(cuid())
+  name        String
+  category    String      // "Apparel", "Tactical Bags", "Shooting Accessories"
+  pricePKR    Int         // Price in Pakistani Rupees (₨)
+  stockQty    Int         @default(0)
+  image       String
+  description String
+  variants    Json?       // Sizes (S, M, L, XL), Colors
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  orderItems  OrderItem[]
+}
+
+enum OrderStatus {
+  NEW
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id              String       @id @default(cuid()) // "DSA-ORD-XXXXXX-XXX"
+  customerName    String
+  customerEmail   String?
+  customerPhone   String
+  city            String
+  address         String
+  subtotalPKR     Int
+  shippingFeePKR  Int          @default(450)
+  totalPKR        Int
+  status          OrderStatus  @default(NEW)
+  trackingNumber  String?
+  courierName     String?
+  notes           String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  items           OrderItem[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id          String     @id @default(cuid())
+  orderId     String
+  order       Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  shopItemId  String
+  shopItem    ShopItem   @relation(fields: [shopItemId], references: [id])
+  itemName    String
+  unitPricePKR Int
+  quantity    Int
+  subtotalPKR Int
+
+  @@index([orderId])
+}
+
+// -------------------------------------------------------------
+// 5. INBOUND SUBMISSIONS, RFQS & TENDERS
+// -------------------------------------------------------------
+
+enum SubmissionType {
+  CONTACT_RFQ
+  DEALER_APPLICATION
+  DEFENSE_TENDER
+  BALLISTICS_PROOF_INQUIRY
+  ARMS_LICENSE_VERIFICATION
+}
+
+enum SubmissionStatus {
+  NEW
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  RESOLVED
+}
+
+model FormSubmission {
+  id          String            @id @default(cuid()) // "DSA-ENQ-XXXXXX-XXX"
+  type        SubmissionType    @default(CONTACT_RFQ)
+  name        String
+  email       String
+  phone       String
+  subject     String
+  message     String
+  status      SubmissionStatus  @default(NEW)
+  adminNotes  String?
+  assignedTo  String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([type])
+  @@index([status])
+}
+
+// -------------------------------------------------------------
+// 6. DEALER NETWORK & GEOGRAPHIC COORDINATES
+// -------------------------------------------------------------
+
+model Dealer {
+  id          String     @id @default(cuid())
+  city        String
+  province    String     // "Khyber Pakhtunkhwa", "Punjab", "Sindh", "Balochistan"
+  latitude    Float
+  longitude   Float
+  isHQ        Boolean    @default(false)
+  name        String
+  address     String
+  phone       String
+  note        String?
+  displayOrder Int       @default(0)
+  createdAt   DateTime   @default(now())
+
+  @@index([city])
+}
+
+// -------------------------------------------------------------
+// 7. CORPORATE CREDENTIALS, ACCREDITATIONS & TIMELINE
+// -------------------------------------------------------------
+
+model Certificate {
+  id          String     @id @default(cuid())
+  code        String     // "AS9100 Rev D", "ISO 9001:2015", "ISO 14001:2015"
+  title       String
+  issuer      String
+  scope       String
+  validUntil  String?
+  badgeColor  String     @default("brass")
+  displayOrder Int       @default(0)
+}
+
+model TimelineEvent {
+  id          String     @id @default(cuid())
+  year        String     // "1953", "1971", "1985", "2012", "2018", "2024"
+  title       String
+  description String
+  milestone   String?
+  displayOrder Int       @default(0)
+}
+
+enum PartnerType {
+  CLIENT
+  PARTNER
+}
+
+model Client {
+  id          String     @id @default(cuid())
+  name        String
+  category    String     // "Armed Forces", "Law Enforcement", "Foreign Procurement"
+  country     String     @default("Pakistan")
+  logoUrl     String?
+  displayOrder Int       @default(0)
+}
+
+model Partner {
+  id          String     @id @default(cuid())
+  name        String
+  category    String     // "Munitions Partner", "Vehicle Integration", "Optics"
+  country     String     @default("Pakistan")
+  logoUrl     String?
+  displayOrder Int       @default(0)
+}
+
+// -------------------------------------------------------------
+// 8. NEWS, FOUNDATION & PUBLIC KNOWLEDGE BASE
+// -------------------------------------------------------------
+
+model NewsPost {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  dateLabel   String
+  tag         String     // "Expos", "Manufacturing", "CSR", "Awards"
+  excerpt     String
+  content     String
+  coverImage  String?
+  isPublished Boolean    @default(true)
+  publishedAt DateTime   @default(now())
+}
+
+model FoundationUpdate {
+  id          String     @id @default(cuid())
+  title       String
+  category    String     // "Apprentice Institute", "Clean Water", "Relief"
+  impactStats String?    // "450+ Certified Machinists Graduated"
+  description String
+  imageUrl    String?
+  displayOrder Int       @default(0)
+  createdAt   DateTime   @default(now())
+}
+
+model FAQ {
+  id          Int        @id @default(autoincrement())
+  category    String     @default("General") // "Civilian Firearms", "Defense Export", "Quality"
+  question    String
+  answer      String
+  displayOrder Int       @default(0)
+}
+
+model DownloadFile {
+  id          Int        @id @default(autoincrement())
+  title       String
+  fileSize    String
+  fileType    String     // "PDF", "CAD Drawing", "Brochure"
+  fileUrl     String
+  isLive      Boolean    @default(true)
+  description String
+  displayOrder Int       @default(0)
+}
+
+// -------------------------------------------------------------
+// 9. MEDIA ASSET REGISTRY & URL REDIRECTS
+// -------------------------------------------------------------
+
+model MediaAsset {
+  id          String     @id @default(cuid())
+  filename    String
+  originalName String
+  mimeType    String
+  sizeBytes   Int
+  url         String
+  altText     String?
+  uploadedAt  DateTime   @default(now())
+
+  @@index([filename])
+}
+
+model Redirect {
+  id          String     @id @default(cuid())
+  fromPath    String     @unique
+  toPath      String
+  statusCode  Int        @default(301)
+}
