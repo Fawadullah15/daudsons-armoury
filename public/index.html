@@ -231,9 +231,9 @@
         </button>
 
         <!-- Next.js Source & Architecture Modal Button -->
-        <button id="openCodeBlueprintBtn" type="button" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded border border-theme-brass bg-theme-surface-2 hover:border-[#C8A24A] font-mono-tech text-[11px] text-theme-brass">
+        <button id="openCodeBlueprintBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-theme-brass bg-theme-surface-2 hover:border-[#C8A24A] font-mono-tech text-[11px] text-theme-brass cursor-pointer">
           <span>&lt;/&gt;</span>
-          <span>Code &amp; Docs</span>
+          <span class="hidden xs:inline">Code &amp; Docs</span>
         </button>
 
         <!-- E-Shop Cart Trigger -->
@@ -271,7 +271,8 @@
         <button type="button" data-route="daudsons-foundation" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">07 / Foundation</button>
         <button type="button" data-route="downloads" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">08 / Downloads</button>
         <button type="button" data-route="contact-us" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-[#E4572E] font-bold">09 / Contact HQ</button>
-        <button type="button" data-route="admin" class="nav-route-btn text-left p-2.5 border border-[#C8A24A] bg-[#C8A24A]/15 text-[#C8A24A] font-bold col-span-2 sm:col-span-1">10 / ⚙ Admin &amp; DB</button>
+        <button type="button" data-route="admin" class="nav-route-btn text-left p-2.5 border border-[#C8A24A] bg-[#C8A24A]/15 text-[#C8A24A] font-bold">10 / ⚙ Admin &amp; DB</button>
+        <button type="button" onclick="document.getElementById('codeInspectorModal').classList.remove('hidden'); document.getElementById('codeInspectorModal').classList.add('flex'); document.getElementById('mobileMegaMenu').classList.add('hidden');" class="text-left p-2.5 border border-theme-brass bg-theme-surface-2 text-theme-brass font-bold col-span-2">11 / &lt;/&gt; Next.js Blueprint &amp; Specs</button>
       </div>
     </div>
   </header>
