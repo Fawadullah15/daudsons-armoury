@@ -88,6 +88,37 @@ body {
 }
 
 /* ==========================================================================
+   PRODUCTS & CART SLIDE-OVER DRAWERS
+   ========================================================================== */
+#productsDrawerBackdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-in-out;
+}
+#productsDrawerBackdrop.flex {
+  opacity: 1;
+  pointer-events: auto;
+}
+#productsDrawerPanel {
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+#productsDrawerBackdrop.flex #productsDrawerPanel {
+  transform: translateX(0);
+}
+
+#miniCartDrawerBackdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease-in-out;
+}
+#miniCartDrawerBackdrop.flex {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
    ACCESSIBILITY & SCREEN READERS
    ========================================================================== */
 .sr-only {

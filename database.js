@@ -755,8 +755,8 @@ function seedDatabase(force = false) {
     ['email_sales', 'sales@daudsons.com'],
     ['email_defense', 'defense@daudsons.com'],
     ['email_info', 'info@daudsons.com'],
-    ['announcement_active', 'true'],
-    ['announcement_text', 'NOTICE: Regulated arms procurement requires valid Ministry/NADRA license. Direct cart checkout is restricted strictly to apparel and accessories.'],
+    ['announcement_active', 'false'],
+    ['announcement_text', 'NOTICE: Regulated arms procurement requires valid Ministry/NADRA license. Direct cart checkout is restricted strictly to official merchandise and accessories.'],
     ['maintenance_mode', 'false'],
     ['seo_meta_title', 'DAUDSONS ARMOURY (PVT.) LTD. — Defense, Small Arms & Aerospace Precision'],
     ['seo_meta_description', "Pakistan's premier defense manufacturer and exporter since 1953. Certified AS9100 Rev D, ISO 9001:2015, and ISO 14001:2015."]

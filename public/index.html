@@ -189,42 +189,21 @@
 
       <!-- Desktop Primary Links -->
       <nav id="primaryDesktopNav" aria-label="Primary Navigation" class="items-center gap-4 xl:gap-6 font-mono-tech text-xs uppercase tracking-wider">
-        <button type="button" data-route="home" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors text-[#C8A24A] font-semibold">Home</button>
+        <button type="button" data-route="home" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors text-[#C8A24A] font-semibold cursor-pointer">Home</button>
         
-        <!-- Products Mega Dropdown -->
-        <div class="relative group">
-          <button type="button" data-route="products" class="nav-route-btn py-1 flex items-center gap-1 hover:text-[#C8A24A] transition-colors">
-            Products
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          <div class="absolute left-0 top-full pt-3 hidden group-hover:block w-72 z-50">
-            <div class="bg-theme-surface border border-theme-brass p-3 shadow-2xl space-y-1.5">
-              <button type="button" data-route="products" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 text-theme-brass font-semibold flex justify-between">
-                <span>ALL PRODUCTS CATALOG</span><span>30</span>
-              </button>
-              <button type="button" data-route="firearms" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 flex justify-between">
-                <span>01 / Firearms Division</span><span class="text-theme-steel">12</span>
-              </button>
-              <button type="button" data-route="defense" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 flex justify-between">
-                <span>02 / Defense Equipment</span><span class="text-theme-steel">06</span>
-              </button>
-              <button type="button" data-route="aerospace" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 flex justify-between">
-                <span>03 / Aerospace (AS9100D)</span><span class="text-theme-steel">06</span>
-              </button>
-              <button type="button" data-route="engineering" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 flex justify-between">
-                <span>04 / Precision Engineering</span><span class="text-theme-steel">06</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <!-- Products Drawer Trigger Button -->
+        <button type="button" id="openProductsDrawerBtn" aria-label="Open Product Catalog Drawer" class="py-1 flex items-center gap-1.5 hover:text-[#C8A24A] transition-colors cursor-pointer group text-theme-primary">
+          <span>Products</span>
+          <svg class="w-3.5 h-3.5 text-theme-brass group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
 
-        <button type="button" data-route="shop" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Shop</button>
-        <button type="button" data-route="dealers" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Dealers</button>
-        <button type="button" data-route="about-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">About</button>
-        <button type="button" data-route="news-and-events" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">News</button>
-        <button type="button" data-route="daudsons-foundation" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Foundation</button>
-        <button type="button" data-route="contact-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Contact</button>
-        <button type="button" data-route="admin" class="nav-route-btn px-3 py-1 bg-[#C8A24A]/15 border border-[#C8A24A] text-[#C8A24A] hover:bg-[#C8A24A] hover:text-[#0A0B0D] transition-colors font-bold text-[11px] rounded">⚙ Admin</button>
+        <button type="button" data-route="shop" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">Shop</button>
+        <button type="button" data-route="about-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">About Us</button>
+        <button type="button" data-route="dealers" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">Dealers</button>
+        <button type="button" data-route="news-and-events" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">News &amp; Events</button>
+        <button type="button" data-route="daudsons-foundation" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">Foundation</button>
+        <button type="button" data-route="downloads" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">Downloads</button>
+        <button type="button" data-route="contact-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors cursor-pointer">Contact Us</button>
       </nav>
 
       <!-- Action Controls (Theme Toggle, Cart Drawer, Mobile Menu) -->
@@ -257,7 +236,9 @@
     <div id="mobileMegaMenu" class="hidden lg:hidden border-t border-theme-brass bg-theme-base px-6 py-6 space-y-4">
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono-tech text-xs uppercase">
         <button type="button" data-route="home" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">00 / Home</button>
-        <button type="button" data-route="products" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">01 / All Products</button>
+        <button type="button" id="mobileOpenProductsDrawerBtn" class="text-left p-2.5 border border-[#C8A24A] text-theme-brass hover:bg-theme-surface-2 flex items-center justify-between font-bold">
+          <span>01 / Products</span><span>☰ Drawer</span>
+        </button>
         <button type="button" data-route="firearms" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-theme-brass">→ Firearms</button>
         <button type="button" data-route="defense" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-theme-brass">→ Defense</button>
         <button type="button" data-route="aerospace" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-theme-brass">→ Aerospace</button>
@@ -269,8 +250,7 @@
         <button type="button" data-route="news-and-events" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">06 / News &amp; Events</button>
         <button type="button" data-route="daudsons-foundation" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">07 / Foundation</button>
         <button type="button" data-route="downloads" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">08 / Downloads</button>
-        <button type="button" data-route="contact-us" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-[#E4572E] font-bold">09 / Contact HQ</button>
-        <button type="button" data-route="admin" class="nav-route-btn text-left p-2.5 border border-[#C8A24A] bg-[#C8A24A]/15 text-[#C8A24A] font-bold col-span-2 sm:col-span-1">10 / ⚙ Admin &amp; DB</button>
+        <button type="button" data-route="contact-us" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-[#E4572E] font-bold col-span-2 sm:col-span-1">09 / Contact Us</button>
       </div>
     </div>
   </header>
@@ -1993,6 +1973,123 @@ model AuditLog {
       </div>
     </div>
   </main>
+
+  <!-- ===================================================================== -->
+  <!-- 3.5. PRODUCTS CATALOG SLIDE-OVER DRAWER                               -->
+  <!-- ===================================================================== -->
+  <div id="productsDrawerBackdrop" class="hidden fixed inset-0 z-[110] bg-black/80 backdrop-blur-md justify-start" aria-hidden="true" role="dialog" aria-label="Products Catalog Drawer">
+    <div id="productsDrawerPanel" class="w-full max-w-xl md:max-w-2xl bg-theme-surface border-r border-theme-brass h-full flex flex-col justify-between shadow-2xl relative overflow-hidden">
+      <!-- Top Header -->
+      <div class="p-5 sm:p-6 border-b border-theme-muted bg-theme-base/80 flex items-center justify-between">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#C8A24A] animate-pulse"></span>
+            <span class="font-mono-tech text-[10px] uppercase tracking-widest text-theme-brass">DSA DEFENSE &amp; AEROSPACE CATALOG</span>
+          </div>
+          <h3 class="font-display text-xl sm:text-2xl font-bold uppercase text-theme-primary mt-1">Specialized Divisions</h3>
+          <p class="font-mono-tech text-[11px] text-theme-steel">Peshawar, Pakistan • Since 1953 • AS9100 Rev D &amp; ISO 9001:2015</p>
+        </div>
+        <button id="closeProductsDrawerBtn" type="button" aria-label="Close Products Drawer" class="p-2 sm:p-2.5 rounded border border-theme-muted hover:border-[#C8A24A] hover:text-[#C8A24A] font-mono-tech text-base transition-colors cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Quick Search / Filter within Drawer -->
+      <div class="px-5 sm:px-6 py-3 border-b border-theme-muted bg-theme-surface-2 flex items-center gap-2.5">
+        <svg class="w-4 h-4 text-theme-brass flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input id="drawerProductSearchInput" type="text" placeholder="Quick find firearm, defense ordinance or aerospace part..." class="w-full bg-transparent font-mono-tech text-xs text-theme-primary placeholder-theme-steel focus:outline-none" />
+      </div>
+
+      <!-- Scrollable Divisions & Items Container -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-4">
+        <!-- Division 1: Firearms -->
+        <div class="p-4 bg-theme-base border border-theme-muted hover:border-[#C8A24A] transition-all group">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="font-mono-tech text-[10px] text-theme-brass uppercase tracking-widest">01 // DEFENSE &amp; CIVILIAN</span>
+              <h4 class="font-display text-lg font-bold text-theme-primary uppercase">Firearms Division</h4>
+              <p class="text-xs text-theme-steel mt-1">9mm DSA Trushot, DSA Nine, 30 Bore pistols, 12-Gauge pump-action &amp; double-barrel shotguns, .223 rifles.</p>
+            </div>
+            <span class="px-2 py-0.5 font-mono-tech text-[10px] bg-[#E4572E]/15 text-[#E4572E] border border-[#E4572E]/30 uppercase font-semibold whitespace-nowrap ml-2">12 Systems</span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-theme-muted flex items-center justify-between">
+            <span class="font-mono-tech text-[11px] text-theme-steel">Statutory requirement: Valid Arms License</span>
+            <button type="button" data-route="firearms" class="drawer-nav-link text-xs font-mono-tech text-theme-brass font-bold hover:underline flex items-center gap-1 cursor-pointer">
+              Explore Division <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Division 2: Defense Equipment -->
+        <div class="p-4 bg-theme-base border border-theme-muted hover:border-[#C8A24A] transition-all group">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="font-mono-tech text-[10px] text-theme-brass uppercase tracking-widest">02 // ARMED FORCES PROCUREMENT</span>
+              <h4 class="font-display text-lg font-bold text-theme-primary uppercase">Defense Equipment</h4>
+              <p class="text-xs text-theme-steel mt-1">Pyrotechnic pistols, metallic link belts, steel/polymer fusewell containers, forged suspension lugs &amp; bi-pods.</p>
+            </div>
+            <span class="px-2 py-0.5 font-mono-tech text-[10px] bg-[#C8A24A]/15 text-[#C8A24A] border border-[#C8A24A]/30 uppercase font-semibold whitespace-nowrap ml-2">06 Systems</span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-theme-muted flex items-center justify-between">
+            <span class="font-mono-tech text-[11px] text-theme-steel">Defense Tender &amp; DGDP Approved</span>
+            <button type="button" data-route="defense" class="drawer-nav-link text-xs font-mono-tech text-theme-brass font-bold hover:underline flex items-center gap-1 cursor-pointer">
+              Explore Division <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Division 3: Aerospace Division -->
+        <div class="p-4 bg-theme-base border border-theme-muted hover:border-[#C8A24A] transition-all group">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="font-mono-tech text-[10px] text-theme-brass uppercase tracking-widest">03 // AS9100 REV D CERTIFIED</span>
+              <h4 class="font-display text-lg font-bold text-theme-primary uppercase">Aerospace Division</h4>
+              <p class="text-xs text-theme-steel mt-1">Flight-critical actuation spindles, airborne retention clips, tensile proof-load swivels &amp; fuze couplings.</p>
+            </div>
+            <span class="px-2 py-0.5 font-mono-tech text-[10px] bg-[#C8A24A]/15 text-[#C8A24A] border border-[#C8A24A]/30 uppercase font-semibold whitespace-nowrap ml-2">06 Systems</span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-theme-muted flex items-center justify-between">
+            <span class="font-mono-tech text-[11px] text-theme-steel">CMM Verified: ±0.005 mm</span>
+            <button type="button" data-route="aerospace" class="drawer-nav-link text-xs font-mono-tech text-theme-brass font-bold hover:underline flex items-center gap-1 cursor-pointer">
+              Explore Division <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Division 4: Precision Engineering -->
+        <div class="p-4 bg-theme-base border border-theme-muted hover:border-[#C8A24A] transition-all group">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="font-mono-tech text-[10px] text-theme-brass uppercase tracking-widest">04 // ISO 9001:2015 &amp; ISO 14001</span>
+              <h4 class="font-display text-lg font-bold text-theme-primary uppercase">Precision Engineering</h4>
+              <p class="text-xs text-theme-steel mt-1">Multi-axis CNC milling, grinding, honing, drop forging, tool/die design and metallurgical lab proving.</p>
+            </div>
+            <span class="px-2 py-0.5 font-mono-tech text-[10px] bg-[#C8A24A]/15 text-[#C8A24A] border border-[#C8A24A]/30 uppercase font-semibold whitespace-nowrap ml-2">06 Systems</span>
+          </div>
+          <div class="mt-3 pt-3 border-t border-theme-muted flex items-center justify-between">
+            <span class="font-mono-tech text-[11px] text-theme-steel">5-Axis CNC &amp; Sub-Micron Honing</span>
+            <button type="button" data-route="engineering" class="drawer-nav-link text-xs font-mono-tech text-theme-brass font-bold hover:underline flex items-center gap-1 cursor-pointer">
+              Explore Division <span>→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Instant Search Results Container inside Drawer -->
+        <div id="drawerSearchResults" class="hidden space-y-2 pt-2"></div>
+      </div>
+
+      <!-- Drawer Bottom Action Footer -->
+      <div class="p-5 sm:p-6 border-t border-theme-muted bg-theme-base/80 space-y-3">
+        <button type="button" data-route="products" class="drawer-nav-link btn-brass w-full py-3.5 font-mono-tech text-xs uppercase font-bold text-center block cursor-pointer">
+          View Complete Master Catalog (All 30 Systems) →
+        </button>
+        <div class="flex items-center justify-between text-[11px] font-mono-tech text-theme-steel">
+          <span>Need specialized military manufacturing?</span>
+          <button type="button" data-route="contact-us" class="drawer-nav-link text-theme-brass underline hover:opacity-80 cursor-pointer">Submit RFQ / Tender</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===================================================================== -->
   <!-- 4. MINI-CART SLIDE-OVER DRAWER                                        -->

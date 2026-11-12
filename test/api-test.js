@@ -217,6 +217,16 @@ async function runTests() {
     );
     assert(updSettings.status === 200 && updSettings.body.settings.announcement_text.includes('TEST ANNOUNCEMENT'), 'Site Settings: Updates announcement banner text');
 
+    // Restore clean production settings
+    await request(
+      { path: '/api/admin/settings', method: 'PUT', headers: { 'Content-Type': 'application/json' } },
+      {
+        announcement_text: 'NOTICE: Regulated arms procurement requires valid Ministry/NADRA license. Direct cart checkout is restricted strictly to official merchandise.',
+        announcement_active: 'false'
+      },
+      sessionCookie
+    );
+
     // ---------------------------------------------------------
     // 10. PRODUCT CRUD WITH AUDIT VERIFICATION FLAG
     // ---------------------------------------------------------

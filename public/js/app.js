@@ -288,6 +288,128 @@ class DsaApp {
       });
     });
 
+    // Products Catalog Drawer
+    const prodDrawer = document.getElementById("productsDrawerBackdrop");
+    const openProdBtn = document.getElementById("openProductsDrawerBtn");
+    const closeProdBtn = document.getElementById("closeProductsDrawerBtn");
+    const mobileOpenProdBtn = document.getElementById("mobileOpenProductsDrawerBtn");
+    const drawerSearch = document.getElementById("drawerProductSearchInput");
+    const drawerResults = document.getElementById("drawerSearchResults");
+
+    const openProductsDrawer = () => {
+      if (!prodDrawer) return;
+      prodDrawer.classList.remove("hidden");
+      prodDrawer.classList.add("flex");
+      const mobileMenu = document.getElementById("mobileMegaMenu");
+      if (mobileMenu && !mobileMenu.classList.contains("hidden")) {
+        mobileMenu.classList.add("hidden");
+      }
+      if (drawerSearch) {
+        drawerSearch.value = "";
+        drawerSearch.focus();
+      }
+      if (drawerResults) {
+        drawerResults.classList.add("hidden");
+        drawerResults.innerHTML = "";
+      }
+    };
+
+    const closeProductsDrawer = () => {
+      if (!prodDrawer) return;
+      prodDrawer.classList.add("hidden");
+      prodDrawer.classList.remove("flex");
+    };
+
+    if (openProdBtn) {
+      openProdBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openProductsDrawer();
+      });
+    }
+
+    if (mobileOpenProdBtn) {
+      mobileOpenProdBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openProductsDrawer();
+      });
+    }
+
+    if (closeProdBtn) {
+      closeProdBtn.addEventListener("click", () => {
+        closeProductsDrawer();
+      });
+    }
+
+    if (prodDrawer) {
+      prodDrawer.addEventListener("click", (e) => {
+        if (e.target === prodDrawer) {
+          closeProductsDrawer();
+        }
+      });
+    }
+
+    // Drawer internal navigation links
+    document.querySelectorAll(".drawer-nav-link").forEach(btn => {
+      btn.addEventListener("click", () => {
+        closeProductsDrawer();
+        const route = btn.getAttribute("data-route");
+        if (route && window.dsaRouter) {
+          window.dsaRouter.navigate(route);
+        }
+      });
+    });
+
+    // Real-time search inside Products Drawer
+    if (drawerSearch && drawerResults) {
+      drawerSearch.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (!query) {
+          drawerResults.classList.add("hidden");
+          drawerResults.innerHTML = "";
+          return;
+        }
+
+        const matches = (this.products || []).filter(p =>
+          p.name.toLowerCase().includes(query) ||
+          p.category.toLowerCase().includes(query) ||
+          p.division.toLowerCase().includes(query) ||
+          (p.short_desc || p.desc || "").toLowerCase().includes(query)
+        );
+
+        if (matches.length === 0) {
+          drawerResults.innerHTML = `
+            <div class="p-3 bg-theme-surface border border-theme-muted text-xs font-mono-tech text-theme-steel text-center">
+              No weapons or systems matching "${query}".
+            </div>
+          `;
+        } else {
+          drawerResults.innerHTML = matches.slice(0, 6).map(p => `
+            <button type="button" data-slug="${p.slug}" class="drawer-prod-item w-full text-left p-2.5 bg-theme-surface border border-theme-muted hover:border-[#C8A24A] flex items-center justify-between gap-3 group">
+              <div class="flex items-center gap-2.5 truncate">
+                <img src="${p.image}" alt="${p.name}" class="w-8 h-8 object-contain bg-theme-surface-2 border border-theme-muted p-0.5 flex-shrink-0" />
+                <div class="truncate">
+                  <div class="font-display text-xs font-bold text-theme-primary group-hover:text-theme-brass truncate">${p.name}</div>
+                  <div class="font-mono-tech text-[10px] text-theme-steel truncate">${p.category} // ${p.division.toUpperCase()}</div>
+                </div>
+              </div>
+              <span class="text-xs text-theme-brass font-mono-tech font-bold flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+          `).join("");
+
+          drawerResults.querySelectorAll(".drawer-prod-item").forEach(itemBtn => {
+            itemBtn.addEventListener("click", () => {
+              const slug = itemBtn.getAttribute("data-slug");
+              closeProductsDrawer();
+              if (slug) {
+                window.dsaRouter.navigate("product/" + slug);
+              }
+            });
+          });
+        }
+        drawerResults.classList.remove("hidden");
+      });
+    }
+
     // Mini Cart Drawer
     const drawer = document.getElementById("miniCartDrawerBackdrop");
     const openCartBtn = document.getElementById("openCartDrawerBtn");
@@ -610,13 +732,24 @@ class DsaApp {
     // Global ESC key listener to dismiss active modals & drawers
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        const prodModal = document.getElementById("admEditProductModal");
-        if (prodModal) prodModal.classList.add("hidden");
+        const prodDrawer = document.getElementById("productsDrawerBackdrop");
+        if (prodDrawer) {
+          prodDrawer.classList.add("hidden");
+          prodDrawer.classList.remove("flex");
+        }
         const cartDrawer = document.getElementById("miniCartDrawerBackdrop");
         if (cartDrawer) {
           cartDrawer.classList.add("hidden");
           cartDrawer.classList.remove("flex");
         }
+        const prodModal = document.getElementById("admEditProductModal");
+        if (prodModal) prodModal.classList.add("hidden");
+      }
+
+      // Discreet Staff Security Shortcut: Ctrl + Shift + A (or Alt + A) to open Admin Portal
+      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') || (e.altKey && e.key.toLowerCase() === 'a')) {
+        e.preventDefault();
+        window.dsaRouter.navigate("admin");
       }
     });
 
