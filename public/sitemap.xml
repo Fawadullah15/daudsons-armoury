@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://daudsonsarmoury.vercel.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/products</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/firearms</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/defense</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/engineering</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/aerospace</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/shop</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/about-us</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/dealers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/news-and-events</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/daudsons-foundation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/downloads</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/contact-us</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://daudsonsarmoury.vercel.app/licensing-compliance</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>

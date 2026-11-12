@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Enterprise Full-Stack Web Application for Daudsons Armoury (Pvt.) Ltd. Peshawar, Pakistan",
   "main": "server.js",
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",

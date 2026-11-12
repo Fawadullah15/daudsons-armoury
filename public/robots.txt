@@ -1,0 +1,20 @@
+User-agent: *
+Disallow: /admin
+Disallow: /api/admin
+Disallow: /api/auth
+Allow: /
+Allow: /products
+Allow: /firearms
+Allow: /defense
+Allow: /engineering
+Allow: /aerospace
+Allow: /shop
+Allow: /dealers
+Allow: /about-us
+Allow: /contact-us
+Allow: /news-and-events
+Allow: /daudsons-foundation
+Allow: /downloads
+Allow: /licensing-compliance
+
+Sitemap: https://daudsonsarmoury.vercel.app/sitemap.xml
