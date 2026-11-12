@@ -167,6 +167,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 3. SYSTEM, SITEMAP & ROBOTS.TXT
 // -------------------------------------------------------------
 
+// Favicon endpoints
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
+});
+app.get('/favicon.png', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'favicon.png'));
+});
+
 // Robots.txt
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');
