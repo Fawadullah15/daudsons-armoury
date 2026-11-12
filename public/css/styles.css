@@ -55,6 +55,39 @@ body {
 }
 
 /* ==========================================================================
+   DETERMINISTIC NAVIGATION BAR & HEADER LAYOUT
+   ========================================================================== */
+#topComplianceRibbon {
+  display: flex !important;
+}
+@media (max-width: 767px) {
+  #topComplianceRibbon {
+    display: none !important;
+  }
+}
+
+#primaryDesktopNav {
+  display: flex !important;
+  align-items: center;
+}
+@media (max-width: 1023px) {
+  #primaryDesktopNav {
+    display: none !important;
+  }
+  #mobileMenuToggleBtn {
+    display: flex !important;
+  }
+}
+@media (min-width: 1024px) {
+  #primaryDesktopNav {
+    display: flex !important;
+  }
+  #mobileMenuToggleBtn {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
    ACCESSIBILITY & SCREEN READERS
    ========================================================================== */
 .sr-only {
