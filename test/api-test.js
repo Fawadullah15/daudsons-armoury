@@ -1,3 +1,4 @@
+process.env.SQLITE_DB_PATH = ':memory:';
 const http = require('http');
 const app = require('../server');
 const auth = require('../auth');

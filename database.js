@@ -10,7 +10,7 @@ const isVercel = Boolean(
 );
 
 const SEED_FILE = path.join(__dirname, 'seed-data.json');
-let DB_PATH = path.join(__dirname, 'daudsons.db');
+let DB_PATH = process.env.SQLITE_DB_PATH || path.join(__dirname, 'daudsons.db');
 
 if (isVercel) {
   const tmpDir = os.tmpdir();
