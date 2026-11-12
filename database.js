@@ -242,6 +242,183 @@ if (isMemoryFallback || !db) {
 }
 
 // -------------------------------------------------------------
+// POSTGRESQL & NEON SERVERLESS INTEGRATION
+// -------------------------------------------------------------
+let pgPool = null;
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (DATABASE_URL && (DATABASE_URL.startsWith('postgres://') || DATABASE_URL.startsWith('postgresql://'))) {
+  try {
+    const { Pool } = require('pg');
+    pgPool = new Pool({
+      connectionString: DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+      connectionTimeoutMillis: 5000,
+      idleTimeoutMillis: 30000,
+      max: 10
+    });
+    console.log('[Database] Neon / PostgreSQL client initialized from DATABASE_URL');
+
+    // Auto-initialize PostgreSQL tables in background
+    (async () => {
+      try {
+        const client = await pgPool.connect();
+        await client.query(`
+          CREATE TABLE IF NOT EXISTS users (
+            id TEXT PRIMARY KEY,
+            email TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            name TEXT NOT NULL,
+            role TEXT NOT NULL DEFAULT 'EDITOR',
+            status TEXT NOT NULL DEFAULT 'ACTIVE',
+            totp_secret TEXT,
+            totp_enabled INTEGER NOT NULL DEFAULT 0,
+            recovery_codes TEXT,
+            failed_login_attempts INTEGER NOT NULL DEFAULT 0,
+            lockout_until TEXT,
+            must_change_password INTEGER NOT NULL DEFAULT 0,
+            last_login_at TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS site_settings (
+            key TEXT PRIMARY KEY,
+            value TEXT NOT NULL,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS sections (
+            id TEXT PRIMARY KEY,
+            page TEXT NOT NULL DEFAULT 'home',
+            section_key TEXT UNIQUE NOT NULL,
+            title TEXT NOT NULL,
+            subtitle TEXT,
+            badge TEXT,
+            content TEXT,
+            cta_text TEXT,
+            cta_link TEXT,
+            image_url TEXT,
+            display_order INTEGER NOT NULL DEFAULT 0,
+            is_visible INTEGER NOT NULL DEFAULT 1,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS products (
+            id TEXT PRIMARY KEY,
+            slug TEXT UNIQUE NOT NULL,
+            name TEXT NOT NULL,
+            division TEXT NOT NULL,
+            category TEXT NOT NULL,
+            requires_license INTEGER NOT NULL DEFAULT 0,
+            image TEXT,
+            wp_asset TEXT,
+            short_desc TEXT,
+            features TEXT,
+            specs TEXT,
+            finishes TEXT,
+            downloads TEXT,
+            needs_verification INTEGER NOT NULL DEFAULT 0,
+            is_published INTEGER NOT NULL DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS shop_items (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            category TEXT NOT NULL,
+            price INTEGER NOT NULL,
+            stock INTEGER NOT NULL DEFAULT 0,
+            image TEXT,
+            description TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS orders (
+            id TEXT PRIMARY KEY,
+            customer_name TEXT NOT NULL,
+            customer_email TEXT,
+            customer_phone TEXT NOT NULL,
+            city TEXT NOT NULL,
+            address TEXT NOT NULL,
+            items TEXT NOT NULL,
+            subtotal INTEGER NOT NULL,
+            shipping_fee INTEGER NOT NULL DEFAULT 450,
+            total_pkr INTEGER NOT NULL,
+            status TEXT NOT NULL DEFAULT 'NEW',
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS enquiries (
+            id TEXT PRIMARY KEY,
+            type TEXT NOT NULL DEFAULT 'CONTACT_RFQ',
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            message TEXT,
+            status TEXT NOT NULL DEFAULT 'NEW',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS dealers (
+            id TEXT PRIMARY KEY,
+            city TEXT NOT NULL,
+            province TEXT NOT NULL,
+            lat REAL NOT NULL,
+            lng REAL NOT NULL,
+            is_hq INTEGER NOT NULL DEFAULT 0,
+            name TEXT NOT NULL,
+            address TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            note TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS news (
+            id TEXT PRIMARY KEY,
+            slug TEXT,
+            title TEXT NOT NULL,
+            date TEXT NOT NULL,
+            tag TEXT NOT NULL,
+            description TEXT NOT NULL,
+            content TEXT,
+            cover_image TEXT,
+            is_published INTEGER NOT NULL DEFAULT 1,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+          CREATE TABLE IF NOT EXISTS faqs (
+            id SERIAL PRIMARY KEY,
+            category TEXT DEFAULT 'General',
+            q TEXT NOT NULL,
+            a TEXT NOT NULL,
+            display_order INTEGER NOT NULL DEFAULT 0
+          );
+          CREATE TABLE IF NOT EXISTS audit_logs (
+            id SERIAL PRIMARY KEY,
+            user_id TEXT,
+            user_email TEXT,
+            role TEXT,
+            action TEXT NOT NULL,
+            entity_type TEXT,
+            entity_id TEXT,
+            details TEXT,
+            ip_address TEXT,
+            user_agent TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+        `);
+        console.log('[Database] PostgreSQL / Neon tables confirmed ready');
+        client.release();
+      } catch (pgInitErr) {
+        console.warn('[Database] PostgreSQL auto-init notice:', pgInitErr.message);
+      }
+    })();
+  } catch (err) {
+    console.warn('[Database] PostgreSQL initialization bypassed:', err.message);
+  }
+}
+
+function syncToPostgres(sql, params = []) {
+  if (!pgPool) return;
+  pgPool.query(sql, params).catch(e => {
+    console.warn('[PostgreSQL Sync Notice]:', e.message);
+  });
+}
+
+// -------------------------------------------------------------
 // SCHEMA INITIALIZATION (ENTERPRISE EXPANDED)
 // -------------------------------------------------------------
 function initSchema() {
@@ -1672,5 +1849,7 @@ module.exports = {
   getDownloads,
   getFaqs,
   getStats,
-  exportDatabase
+  exportDatabase,
+  pgPool,
+  syncToPostgres
 };

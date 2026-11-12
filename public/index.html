@@ -144,11 +144,14 @@
   <!-- ===================================================================== -->
   <header id="globalHeader" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-theme-brass" style="background-color: var(--glass-bg); backdrop-filter: blur(14px);">
     <!-- Global Dynamic Announcement Bar (Admin Controlled via Site Settings) -->
-    <div id="globalAnnouncementBar" class="hidden bg-[#C8A24A] text-[#0A0B0D] px-4 py-1 text-center font-mono-tech text-[11px] font-bold uppercase tracking-wider border-b border-[#0A0B0D]/20">
-      <div class="max-w-[1440px] mx-auto flex items-center justify-between">
-        <span class="hidden sm:inline">âš  OFFICIAL BULLETIN</span>
-        <span id="globalAnnouncementText" class="mx-auto"></span>
-        <button type="button" onclick="document.getElementById('globalAnnouncementBar').classList.add('hidden')" class="text-xs hover:opacity-75 font-bold">âœ•</button>
+    <div id="globalAnnouncementBar" class="hidden bg-[#C8A24A] text-[#0A0B0D] px-4 py-1.5 text-center font-mono-tech text-[11px] font-bold uppercase tracking-wider border-b border-[#0A0B0D]/20">
+      <div class="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
+        <span class="hidden sm:inline-flex items-center gap-1.5 font-bold">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+          OFFICIAL BULLETIN
+        </span>
+        <span id="globalAnnouncementText" class="mx-auto truncate"></span>
+        <button type="button" onclick="document.getElementById('globalAnnouncementBar').classList.add('hidden')" class="text-xs hover:opacity-75 font-bold px-2 py-0.5 cursor-pointer" aria-label="Close Announcement">&times;</button>
       </div>
     </div>
     <!-- Top Compliance & Certification Ribbon -->
@@ -159,10 +162,7 @@
       </div>
       <div class="flex items-center gap-5">
         <span>Industrial Estate, Kohat Road, Peshawar 25210, KPK</span>
-        <a href="tel:+92912322907" class="hover:text-[#C8A24A] transition-colors">+92 (91) 2322907</a>
-        <button id="openCodeBlueprintBtnTop" type="button" class="text-[#C8A24A] underline hover:opacity-80 font-semibold">
-          [Inspect Next.js Source & Specs]
-        </button>
+        <a href="tel:+92912322907" class="hover:text-[#C8A24A] transition-colors font-medium">+92 (91) 2322907</a>
       </div>
     </div>
 
@@ -181,8 +181,8 @@
         </div>
       </button>
 
-      <!-- Desktop Primary Links -->
-      <nav aria-label="Primary Navigation" class="hidden xl:flex items-center gap-5 font-mono-tech text-xs uppercase tracking-wider">
+      <!-- Desktop Primary Links (Visible on standard laptops & desktops >= 1024px) -->
+      <nav aria-label="Primary Navigation" class="hidden lg:flex items-center gap-4 xl:gap-6 font-mono-tech text-xs uppercase tracking-wider">
         <button type="button" data-route="home" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors text-[#C8A24A] font-semibold">Home</button>
         
         <!-- Products Mega Dropdown -->
@@ -194,7 +194,7 @@
           <div class="absolute left-0 top-full pt-3 hidden group-hover:block w-72 z-50">
             <div class="bg-theme-surface border border-theme-brass p-3 shadow-2xl space-y-1.5">
               <button type="button" data-route="products" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 text-theme-brass font-semibold flex justify-between">
-                <span>ALL PRODUCTS CATALOG</span><span>24</span>
+                <span>ALL PRODUCTS CATALOG</span><span>30</span>
               </button>
               <button type="button" data-route="firearms" class="nav-route-btn w-full text-left px-3 py-2 text-xs hover:bg-theme-surface-2 flex justify-between">
                 <span>01 / Firearms Division</span><span class="text-theme-steel">12</span>
@@ -213,31 +213,24 @@
         </div>
 
         <button type="button" data-route="shop" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Shop</button>
-        <button type="button" data-route="about-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">About Us</button>
         <button type="button" data-route="dealers" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Dealers</button>
-        <button type="button" data-route="news-and-events" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">News & Events</button>
+        <button type="button" data-route="about-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">About</button>
+        <button type="button" data-route="news-and-events" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">News</button>
         <button type="button" data-route="daudsons-foundation" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Foundation</button>
-        <button type="button" data-route="downloads" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Downloads</button>
-        <button type="button" data-route="contact-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Contact Us</button>
-        <button type="button" data-route="admin" class="nav-route-btn px-2.5 py-1 bg-[#C8A24A]/15 border border-[#C8A24A] text-[#C8A24A] hover:bg-[#C8A24A] hover:text-[#0A0B0D] transition-colors font-bold">⚙ Admin Panel</button>
+        <button type="button" data-route="contact-us" class="nav-route-btn py-1 hover:text-[#C8A24A] transition-colors">Contact</button>
+        <button type="button" data-route="admin" class="nav-route-btn px-3 py-1 bg-[#C8A24A]/15 border border-[#C8A24A] text-[#C8A24A] hover:bg-[#C8A24A] hover:text-[#0A0B0D] transition-colors font-bold text-[11px] rounded">⚙ Admin</button>
       </nav>
 
-      <!-- Action Controls (Theme Toggle, Code Inspector, Cart Drawer, Mobile Menu) -->
+      <!-- Action Controls (Theme Toggle, Cart Drawer, Mobile Menu) -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Theme Toggle -->
-        <button id="themeToggleBtn" type="button" aria-label="Toggle Dark or Light Mode" class="p-2 rounded border border-theme-brass bg-theme-surface hover:border-[#C8A24A] text-xs font-mono-tech flex items-center gap-1.5" title="Switch Dark / Light Theme">
+        <button id="themeToggleBtn" type="button" aria-label="Toggle Dark or Light Mode" class="p-2 rounded border border-theme-brass bg-theme-surface hover:border-[#C8A24A] text-xs font-mono-tech flex items-center gap-1.5 cursor-pointer" title="Switch Dark / Light Theme">
           <span id="themeIcon">☀️</span>
           <span id="themeLabel" class="hidden sm:inline text-[10px]">LIGHT</span>
         </button>
 
-        <!-- Next.js Source & Architecture Modal Button -->
-        <button id="openCodeBlueprintBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded border border-theme-brass bg-theme-surface-2 hover:border-[#C8A24A] font-mono-tech text-[11px] text-theme-brass cursor-pointer">
-          <span>&lt;/&gt;</span>
-          <span class="hidden xs:inline">Code &amp; Docs</span>
-        </button>
-
         <!-- E-Shop Cart Trigger -->
-        <button id="openCartDrawerBtn" type="button" aria-label="Open Shopping Cart Drawer" class="flex items-center gap-2 px-3 py-2 rounded border border-theme-brass bg-theme-surface hover:border-[#C8A24A] font-mono-tech text-xs">
+        <button id="openCartDrawerBtn" type="button" aria-label="Open Shopping Cart Drawer" class="flex items-center gap-2 px-3 py-2 rounded border border-theme-brass bg-theme-surface hover:border-[#C8A24A] font-mono-tech text-xs cursor-pointer">
           <svg class="w-4 h-4 text-[#C8A24A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
           </svg>
@@ -246,7 +239,7 @@
         </button>
 
         <!-- Mobile Hamburger Trigger -->
-        <button id="mobileMenuToggleBtn" type="button" aria-label="Open Fullscreen Navigation Menu" class="xl:hidden p-2 rounded border border-theme-brass bg-theme-surface">
+        <button id="mobileMenuToggleBtn" type="button" aria-label="Open Fullscreen Navigation Menu" class="lg:hidden p-2 rounded border border-theme-brass bg-theme-surface cursor-pointer">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -255,7 +248,7 @@
     </div>
 
     <!-- Mobile Mega-Menu Overlay -->
-    <div id="mobileMegaMenu" class="hidden xl:hidden border-t border-theme-brass bg-theme-base px-6 py-6 space-y-4">
+    <div id="mobileMegaMenu" class="hidden lg:hidden border-t border-theme-brass bg-theme-base px-6 py-6 space-y-4">
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 font-mono-tech text-xs uppercase">
         <button type="button" data-route="home" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">00 / Home</button>
         <button type="button" data-route="products" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">01 / All Products</button>
@@ -271,8 +264,7 @@
         <button type="button" data-route="daudsons-foundation" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">07 / Foundation</button>
         <button type="button" data-route="downloads" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A]">08 / Downloads</button>
         <button type="button" data-route="contact-us" class="nav-route-btn text-left p-2.5 border border-theme-muted hover:border-[#C8A24A] text-[#E4572E] font-bold">09 / Contact HQ</button>
-        <button type="button" data-route="admin" class="nav-route-btn text-left p-2.5 border border-[#C8A24A] bg-[#C8A24A]/15 text-[#C8A24A] font-bold">10 / ⚙ Admin &amp; DB</button>
-        <button type="button" onclick="document.getElementById('codeInspectorModal').classList.remove('hidden'); document.getElementById('codeInspectorModal').classList.add('flex'); document.getElementById('mobileMegaMenu').classList.add('hidden');" class="text-left p-2.5 border border-theme-brass bg-theme-surface-2 text-theme-brass font-bold col-span-2">11 / &lt;/&gt; Next.js Blueprint &amp; Specs</button>
+        <button type="button" data-route="admin" class="nav-route-btn text-left p-2.5 border border-[#C8A24A] bg-[#C8A24A]/15 text-[#C8A24A] font-bold col-span-2 sm:col-span-1">10 / ⚙ Admin &amp; DB</button>
       </div>
     </div>
   </header>
@@ -280,33 +272,7 @@
   <!-- ===================================================================== -->
   <!-- 3. MAIN ROUTE CONTAINER (ALL 14+ PAGES RENDERED DYNAMICALLY)          -->
   <!-- ===================================================================== -->
-  <main id="main-Interactive-View" class="flex-1 pt-24 md:pt-28">
-
-    <!-- Active Route Breadcrumb & Quick Route Switcher Bar -->
-    <div class="bg-theme-surface border-b border-theme-muted">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono-tech">
-        <div class="flex items-center gap-2">
-          <span class="text-theme-steel">ACTIVE ROUTE:</span>
-          <span id="activeRouteIndicator" class="px-2 py-0.5 bg-theme-surface-2 text-theme-brass border border-theme-brass font-semibold">/ (HOME)</span>
-        </div>
-        <div class="flex flex-wrap items-center gap-1.5 text-theme-steel">
-          <span>Quick Jump:</span>
-          <button type="button" data-route="home" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/</button>
-          <button type="button" data-route="products" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/products</button>
-          <button type="button" data-route="firearms" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/firearms</button>
-          <button type="button" data-route="defense" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/defense</button>
-          <button type="button" data-route="aerospace" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/aerospace</button>
-          <button type="button" data-route="engineering" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/engineering</button>
-          <button type="button" data-route="shop" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/shop</button>
-          <button type="button" data-route="dealers" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/dealers</button>
-          <button type="button" data-route="about-us" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/about-us</button>
-          <button type="button" data-route="daudsons-foundation" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/foundation</button>
-          <button type="button" data-route="downloads" class="nav-route-btn px-2 py-0.5 hover:text-[#C8A24A]">/downloads</button>
-          <button type="button" data-route="admin" class="nav-route-btn px-2 py-0.5 bg-[#C8A24A] text-[#0A0B0D] font-bold">/admin (DB &amp; Backend)</button>
-          <button type="button" data-route="404-demo" class="nav-route-btn px-2 py-0.5 hover:text-[#E4572E]">/404</button>
-        </div>
-      </div>
-    </div>
+  <main id="main-Interactive-View" class="flex-1 pt-16 md:pt-20">
 
     <!-- ================================================================= -->
     <!-- VIEW: HOME PAGE (/) — ALL 12 REQUIRED SECTIONS (a through l)       -->
@@ -2050,36 +2016,6 @@ model AuditLog {
           <button type="button" id="drawerGoToCartBtn" class="btn-brass py-3 uppercase font-semibold">View Cart</button>
           <button type="button" id="drawerGoToCheckoutBtn" class="btn-signal py-3 uppercase font-bold">Checkout →</button>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===================================================================== -->
-  <!-- 5. NEXT.JS SOURCE CODE & ARCHITECTURE INSPECTOR MODAL                 -->
-  <!-- ===================================================================== -->
-  <div id="codeInspectorModal" class="hidden fixed inset-0 z-[115] bg-black/80 backdrop-blur-md items-center justify-center p-4">
-    <div class="bg-[#0A0B0D] border border-[#C8A24A] max-w-5xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl">
-      <div class="px-6 py-4 bg-[#14161A] border-b border-[#C8A24A]/30 flex items-center justify-between">
-        <div>
-          <span class="font-mono-tech text-[10px] uppercase tracking-widest text-[#C8A24A]">PRODUCTION DELIVERABLE ARCHITECTURE</span>
-          <h3 class="font-display text-lg font-bold uppercase text-white">Next.js 14 App Router + TypeScript + Tailwind + SEO Blueprint</h3>
-        </div>
-        <button id="closeCodeModalBtn" type="button" class="px-3 py-1 border border-[#C8A24A]/50 font-mono-tech text-xs text-white hover:bg-[#C8A24A] hover:text-black">
-          Close [ESC]
-        </button>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-6 font-mono-tech text-xs text-gray-300 leading-relaxed">
-        <div class="p-4 bg-[#14161A] border border-[#C8A24A]/30 space-y-2">
-          <p class="text-[#C8A24A] font-bold">COMPLETE NEXT.JS 14 REPOSITORY INCLUDED IN ZIP ARCHIVE</p>
-          <p>All 47 production files (`package.json`, `tailwind.config.ts`, `next.config.js`, `tsconfig.json`, `.env.example`, all 14+ App Router pages, API routes `/api/contact` &amp; `/api/dealer-enquiry`, Zustand cart store, WPGraphQL/WooCommerce adapter, `sitemap.ts`, `robots.ts`, and `QA_CHECKLIST.md`) are packaged in the companion `daudsons-nextjs-full-project.zip` deliverable.</p>
-        </div>
-        <pre class="p-4 bg-[#14161A] border border-gray-800 overflow-x-auto text-[11px] text-[#F2F0EB]">daudsons-nextjs/
-├── package.json (Next.js 14.2, React 18, Three.js / R3F, GSAP, Lenis, Framer Motion, Zustand, RHF + Zod)
-├── tailwind.config.ts &amp; src/app/globals.css (--bg #0A0B0D, --surface #14161A, --accent #C8A24A, --signal #E4572E)
-├── src/data/ (products.ts [24 items + 6 E-Shop], dealers.ts [9 cities], faq.ts [14 FAQs], news.ts, downloads.ts)
-├── src/app/ (/, /products, /firearms, /defense, /aerospace, /engineering, /product/[slug], /shop, /cart, /checkout, /about-us, /contact-us, /dealers, /news-and-events, /news/[slug], /daudsons-foundation, /downloads)
-├── src/app/api/contact/route.ts &amp; src/app/api/dealer-enquiry/route.ts (Zod + Honeypot + Resend/Nodemailer)
-└── src/lib/wordpress-adapter.ts &amp; src/lib/seo.ts (JSON-LD Organization, Product, FAQPage, LocalBusiness)</pre>
       </div>
     </div>
   </div>

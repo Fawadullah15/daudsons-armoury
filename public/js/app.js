@@ -199,7 +199,7 @@ class DsaApp {
       }
     } catch (err) {
       console.error("Initialization error:", err);
-      this.showToast("Connected in offline fallback mode", "error");
+      console.info("Application initialized with resilient catalog fallback:", err.message);
     }
 
     // 3. Setup Listeners
@@ -607,35 +607,9 @@ class DsaApp {
       });
     }
 
-    // Next.js Source & Architecture Inspector Modal
-    const openCodeTop = document.getElementById("openCodeBlueprintBtnTop");
-    const openCodeMain = document.getElementById("openCodeBlueprintBtn");
-    const closeCodeModal = document.getElementById("closeCodeModalBtn");
-    const codeModal = document.getElementById("codeInspectorModal");
-
-    const openCodeModalFn = (e) => {
-      if (e) e.preventDefault();
-      if (codeModal) {
-        codeModal.classList.remove("hidden");
-        codeModal.classList.add("flex");
-      }
-    };
-    const closeCodeModalFn = (e) => {
-      if (e) e.preventDefault();
-      if (codeModal) {
-        codeModal.classList.add("hidden");
-        codeModal.classList.remove("flex");
-      }
-    };
-
-    if (openCodeTop) openCodeTop.addEventListener("click", openCodeModalFn);
-    if (openCodeMain) openCodeMain.addEventListener("click", openCodeModalFn);
-    if (closeCodeModal) closeCodeModal.addEventListener("click", closeCodeModalFn);
-
     // Global ESC key listener to dismiss active modals & drawers
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        closeCodeModalFn();
         const prodModal = document.getElementById("admEditProductModal");
         if (prodModal) prodModal.classList.add("hidden");
         const cartDrawer = document.getElementById("miniCartDrawerBackdrop");
